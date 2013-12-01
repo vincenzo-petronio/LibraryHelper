@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using NLog;
+using System.Windows;
 
 namespace LibraryHelper
 {
@@ -7,8 +8,11 @@ namespace LibraryHelper
     /// </summary>
     public partial class App : Application
     {
+        public static Logger logger = LogManager.GetCurrentClassLogger();
+
         public App()
         {
+            logger.Info("App starting...");
             InitializeComponent();
         }
     }

@@ -36,5 +36,10 @@
                 }
             }
         }
+
+        public void LoadAction()
+        {
+            App.logger.Debug("LoadAction called...");
+        }
     }
 }
