@@ -4,8 +4,8 @@
         xmlns:cal="http://www.caliburnproject.org"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         Title="{Binding Path=Title}" 
-        Height="300" 
-        Width="600" 
+        MinHeight="300" 
+        MinWidth="600" 
         WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
@@ -24,25 +24,25 @@
         
         <!-- Left column -->
         <Grid Grid.Row="1" Grid.Column="0" >
-            <StackPanel Orientation="Vertical" Margin="20">
+            <StackPanel Orientation="Vertical" Margin="10">
                 <Button Content="Load book ..." 
                         cal:Message.Attach="[Event Click] = [Action LoadAction]" />
                 <Button Content="Rename" 
                         IsEnabled="{Binding RenameIsEnabled, Mode=OneWay}"
                         cal:Message.Attach="[Event Click] = [Action RenameAction]" 
-                        Background="#FFF08686"/> 
+                        Background="#FFF08686" />
             </StackPanel>
         </Grid>
         
         <!-- Right column -->
-        <Grid Grid.Row="1" Grid.Column="1" Margin="20" Background="#FFE6E4B2">
+        <Grid Grid.Row="1" Grid.Column="1" Margin="10" Background="#FFE6E4B2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             
-            <StackPanel Grid.Row="0" Orientation="Vertical">
+            <StackPanel Grid.Row="0" Orientation="Vertical" Margin="0,5">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock  Text="Before" 
                                 FontSize="18" 
@@ -62,40 +62,44 @@
                                 Background="{x:Null}" />
                 </StackPanel>
             </StackPanel>
-            
-            <StackPanel Grid.Row="1">
-                <StackPanel Orientation="Horizontal">
+
+            <StackPanel Grid.Row="1"  Margin="0,5">
+                <DockPanel LastChildFill="True">
                     <TextBlock  Text="ISBN"
                                 FontSize="18" 
                                 Width="80" 
                                 Background="{x:Null}" />
-                    <TextBox    Name="TextIsbn" />
-                </StackPanel>
+                    <TextBox    Name="TextIsbn"
+                                HorizontalAlignment="Stretch" />
+                </DockPanel>
             </StackPanel>
-            
-            <StackPanel Grid.Row="2">
-                <StackPanel Orientation="Horizontal">
+
+            <StackPanel Grid.Row="2"  Margin="0,5">
+                <DockPanel>
                     <TextBlock  Text="Title" 
                                 FontSize="18" 
                                 Width="80" 
                                 Background="{x:Null}" />
-                    <TextBox    Name="TextTitle" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
+                    <TextBox    Name="TextTitle" 
+                                HorizontalAlignment="Stretch"/>
+                </DockPanel>
+                <DockPanel>
                     <TextBlock  Text="Author"
                                 FontSize="18" 
                                 Width="80" 
                                 Background="{x:Null}" />
-                    <TextBox    Name="TextAuthor" />
-                </StackPanel>
+                    <TextBox    Name="TextAuthor" 
+                                HorizontalAlignment="Stretch"/>
+                </DockPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock  Text="Published by"
                                 FontSize="18" 
                                 Width="120" 
                                 Background="{x:Null}" />
                     <ComboBox   Name="ComboPublisher" 
-                                MinWidth="150"
+                                MinWidth="160"
                                 cal:Message.Attach="[Event CurrentChanged] = [Action ComboChangedAction]">
+                        <System:String>...</System:String>
                         <System:String>Apress</System:String>
                         <System:String>Wiley</System:String>
                         <System:String>Wrox</System:String>
@@ -113,7 +117,8 @@
                                 FontSize="18" 
                                 Width="80" 
                                 Background="{x:Null}" />
-                    <TextBox    Name="TextYear" />
+                    <TextBox    Name="TextYear" 
+                                Width="100"/>
                 </StackPanel>
             </StackPanel>
         </Grid>

@@ -113,6 +113,9 @@
             }
         }
 
+        /// <summary>
+        /// Property for TextBlock with Title
+        /// </summary>
         public string TextTitle
         {
             get
@@ -130,6 +133,9 @@
             }
         }
 
+        /// <summary>
+        /// Property for TexoBlock with Author name.
+        /// </summary>
         public string TextAuthor
         {
             get 
@@ -147,6 +153,9 @@
             }
         }
 
+        /// <summary>
+        /// Property for TextBlock with Year of publication.
+        /// </summary>
         public string TextYear
         {
             get
@@ -164,6 +173,9 @@
             }
         }
 
+        /// <summary>
+        /// Property for TextBlock with ISBN code.
+        /// </summary>
         public string TextIsbn
         {
             get
@@ -181,6 +193,9 @@
             }
         }
 
+        /// <summary>
+        /// Property for enable/disable Rename button.
+        /// </summary>
         public bool RenameIsEnabled
         {
             get 
@@ -205,7 +220,7 @@
         {
             App.logger.Debug("LoadAction called...");
 
-            InitFileDialog();
+            this.InitFileDialog();
             Nullable<bool> result = openFileDialog.ShowDialog();
             if (result != null && result == true)
             {
