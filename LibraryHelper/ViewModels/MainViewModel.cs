@@ -1,6 +1,7 @@
 ﻿namespace LibraryHelper.ViewModels
 {
     using Caliburn.Micro;
+    using Microsoft.Win32;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -20,11 +21,36 @@
         private string textYear = string.Empty;
         private string textIsbn = string.Empty;
         private bool renameIsEnabled = false;
+        private OpenFileDialog openFileDialog;
 
         public MainViewModel()
         {
             // INIT
             title = "Library Helper";
+        }
+
+        /// <summary>
+        /// Initialize OpenFileDialog.
+        /// </summary>
+        private void InitFileDialog()
+        {
+            openFileDialog = new OpenFileDialog();
+            openFileDialog.DefaultExt = ".pdf";
+            openFileDialog.Filter = "PDF|*.pdf|Archive|*.zip;*.rar;*.7z";
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        }
+
+        /// <summary>
+        /// Restore initial value of Properties.
+        /// </summary>
+        private void CleanGui()
+        {
+            this.TextBefore = string.Empty;
+            this.TextAfter = string.Empty;
+            this.TextAuthor = string.Empty;
+            this.TextIsbn = string.Empty;
+            this.TextTitle = string.Empty;
+            this.TextYear = string.Empty;
         }
 
         /// <summary>
@@ -178,6 +204,19 @@
         public void LoadAction()
         {
             App.logger.Debug("LoadAction called...");
+
+            InitFileDialog();
+            Nullable<bool> result = openFileDialog.ShowDialog();
+            if (result != null && result == true)
+            {
+                App.logger.Debug("File selected: \t" + openFileDialog.FileName);
+                this.TextBefore = openFileDialog.SafeFileName;
+                this.TextTitle = openFileDialog.SafeFileName;
+            }
+            else
+            {
+                this.CleanGui();
+            }
         }
 
         /// <summary>
