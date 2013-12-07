@@ -4,8 +4,9 @@
         xmlns:cal="http://www.caliburnproject.org"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         Title="{Binding Path=Title}" 
-        MinHeight="300" 
-        MinWidth="600" 
+        Height="300" 
+        Width="520" 
+        ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
@@ -43,7 +44,7 @@
             </Grid.RowDefinitions>
             
             <StackPanel Grid.Row="0" Orientation="Vertical" Margin="0,5">
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal" Margin="2" >
                     <TextBlock  Text="Before" 
                                 FontSize="18" 
                                 Width="80" 
@@ -52,7 +53,7 @@
                                 FontSize="16"
                                 Background="{x:Null}" />
                 </StackPanel>
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal" Margin="2" >
                     <TextBlock  Text="After" 
                                 FontSize="18" 
                                 Width="80" 
@@ -64,18 +65,29 @@
             </StackPanel>
 
             <StackPanel Grid.Row="1"  Margin="0,5">
-                <DockPanel LastChildFill="True">
+                <DockPanel Margin="2">
                     <TextBlock  Text="ISBN"
                                 FontSize="18" 
                                 Width="80" 
                                 Background="{x:Null}" />
                     <TextBox    Name="TextIsbn"
-                                HorizontalAlignment="Stretch" />
+                                Width="220" />
+                    
+                    
+                    <Button     Content="Search" 
+                                Width="50" 
+                                HorizontalAlignment="Right" 
+                                cal:Message.Attach="[Event Click] = [Action SearchIsbn]" />
                 </DockPanel>
+                <ProgressBar    IsIndeterminate="True" 
+                                HorizontalAlignment="Stretch"
+                                Height="4" 
+                                Margin="2" 
+                                Visibility="{Binding IsProgressEnabled, Mode=OneWay}" />
             </StackPanel>
 
-            <StackPanel Grid.Row="2"  Margin="0,5">
-                <DockPanel>
+            <StackPanel Grid.Row="2"  Margin="0,5" >
+                <DockPanel Margin="2">
                     <TextBlock  Text="Title" 
                                 FontSize="18" 
                                 Width="80" 
@@ -83,7 +95,7 @@
                     <TextBox    Name="TextTitle" 
                                 HorizontalAlignment="Stretch"/>
                 </DockPanel>
-                <DockPanel>
+                <DockPanel Margin="2">
                     <TextBlock  Text="Author"
                                 FontSize="18" 
                                 Width="80" 
@@ -91,13 +103,14 @@
                     <TextBox    Name="TextAuthor" 
                                 HorizontalAlignment="Stretch"/>
                 </DockPanel>
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal" Margin="2">
                     <TextBlock  Text="Published by"
                                 FontSize="18" 
                                 Width="120" 
                                 Background="{x:Null}" />
                     <ComboBox   Name="ComboPublisher" 
                                 MinWidth="160"
+                                IsEditable="True"
                                 cal:Message.Attach="[Event CurrentChanged] = [Action ComboChangedAction]">
                         <System:String>...</System:String>
                         <System:String>Apress</System:String>
@@ -112,7 +125,7 @@
                         <System:String>Sybex</System:String>
                     </ComboBox>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal" Margin="2">
                     <TextBlock  Text="Year"
                                 FontSize="18" 
                                 Width="80" 

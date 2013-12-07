@@ -249,5 +249,13 @@
         {
             App.logger.Debug("ComboChangedAction called...");
         }
+
+        /// <summary>
+        /// Action for Click Event on Search ISBN button.
+        /// </summary>
+        public void SearchIsbn()
+        {
+            App.logger.Debug("SearchIsbn called...");
+        }
     }
 }
