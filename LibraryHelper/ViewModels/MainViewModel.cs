@@ -4,6 +4,7 @@
     using Microsoft.Win32;
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
@@ -20,7 +21,7 @@
         private string textAuthor = string.Empty;
         private string textYear = string.Empty;
         private string textIsbn = string.Empty;
-        private bool renameIsEnabled = false;
+        private string selectedTextPublisher = string.Empty;
         private OpenFileDialog openFileDialog;
 
         public MainViewModel()
@@ -37,6 +38,7 @@
             openFileDialog = new OpenFileDialog();
             openFileDialog.DefaultExt = ".pdf";
             openFileDialog.Filter = "PDF|*.pdf|Archive|*.zip;*.rar;*.7z";
+            openFileDialog.RestoreDirectory = false;
             openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         }
 
@@ -134,7 +136,7 @@
         }
 
         /// <summary>
-        /// Property for TexoBlock with Author name.
+        /// Property for TextBlock with Author name.
         /// </summary>
         public string TextAuthor
         {
@@ -149,6 +151,26 @@
                 {
                     textAuthor = value;
                     NotifyOfPropertyChange(() => TextAuthor);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Property for ComboBox with Publisher name.
+        /// </summary>
+        public string SelectedTextPublisher
+        {
+            get
+            {
+                return selectedTextPublisher;
+            }
+
+            set 
+            {
+                if (selectedTextPublisher != value)
+                {
+                    selectedTextPublisher = value;
+                    NotifyOfPropertyChange(() => SelectedTextPublisher);
                 }
             }
         }
@@ -194,26 +216,6 @@
         }
 
         /// <summary>
-        /// Property for enable/disable Rename button.
-        /// </summary>
-        public bool RenameIsEnabled
-        {
-            get 
-            {
-                return renameIsEnabled;
-            }
-
-            set
-            {
-                if (renameIsEnabled != value)
-                {
-                    renameIsEnabled = value;
-                    NotifyOfPropertyChange(() => RenameIsEnabled);
-                }
-            }
-        }
-
-        /// <summary>
         /// Action for Click Event on Load button.
         /// </summary>
         public void LoadAction()
@@ -225,8 +227,9 @@
             if (result != null && result == true)
             {
                 App.logger.Debug("File selected: \t" + openFileDialog.FileName);
-                this.TextBefore = openFileDialog.SafeFileName;
-                this.TextTitle = openFileDialog.SafeFileName;
+                string fileNameNoExtension = Path.GetFileNameWithoutExtension(openFileDialog.FileName);
+                this.TextBefore = openFileDialog.FileName;
+                this.TextTitle = fileNameNoExtension;
             }
             else
             {
@@ -240,14 +243,63 @@
         public void RenameAction()
         {
             App.logger.Debug("RenameAction called...");
+            if (this.openFileDialog == null) return;
+
+            if (!string.IsNullOrEmpty(this.TextTitle) && !string.IsNullOrEmpty(this.TextAuthor) &&
+                !string.IsNullOrEmpty(this.SelectedTextPublisher) && 
+                !string.IsNullOrEmpty(this.TextYear) && !string.IsNullOrEmpty(this.TextIsbn))
+            {
+                // Pattern new filename
+                string newFilename =
+                    this.TextTitle
+                    + "._." +
+                    this.TextAuthor
+                    + "._." +
+                    this.SelectedTextPublisher
+                    + "._." +
+                    this.TextYear
+                    + "._." +
+                    this.TextIsbn
+                    + Path.GetExtension(openFileDialog.FileName)
+                    ;
+
+                // Selected filename (full path)
+                string selectedFilename = openFileDialog.FileName;
+                App.logger.Debug("FileName: {0}", selectedFilename);
+
+                // Selected filename merged to new Filename
+                string mergedFilename = Path.Combine(Path.GetDirectoryName(openFileDialog.FileName), newFilename);
+                App.logger.Debug("FileName merged: {0}", mergedFilename);
+
+                // Replace
+                try
+                {
+                    File.Move(selectedFilename, mergedFilename);
+                    App.logger.Info("File was renamed successfully!");
+                }
+                catch (Exception e)
+                {
+                    App.logger.Error(e.Message);
+                }
+                finally
+                {
+                    CleanGui();
+                }
+            }
+            else
+            {
+                // TODO 
+                App.logger.Info("Not all text fields are filled!");
+            }
         }
 
         /// <summary>
         /// Action for Changed item Event on Combobox.
         /// </summary>
-        public void ComboChangedAction()
+        public void TextPublisherSelectionChanged(object item)
         {
-            App.logger.Debug("ComboChangedAction called...");
+            App.logger.Debug("TextPublisherSelectionChanged called... {0}", (string)item);
+            this.SelectedTextPublisher = item as string;
         }
 
         /// <summary>

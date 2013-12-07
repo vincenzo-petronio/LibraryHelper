@@ -4,14 +4,15 @@
         xmlns:cal="http://www.caliburnproject.org"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         Title="{Binding Path=Title}" 
-        Height="300" 
-        Width="520" 
-        ResizeMode="NoResize"
+        MinHeight="350" 
+        MinWidth="600" 
+        ResizeMode="CanResize"
         WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="50" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20*" />
@@ -29,112 +30,116 @@
                 <Button Content="Load book ..." 
                         cal:Message.Attach="[Event Click] = [Action LoadAction]" />
                 <Button Content="Rename" 
-                        IsEnabled="{Binding RenameIsEnabled, Mode=OneWay}"
                         cal:Message.Attach="[Event Click] = [Action RenameAction]" 
                         Background="#FFF08686" />
             </StackPanel>
         </Grid>
         
         <!-- Right column -->
-        <Grid Grid.Row="1" Grid.Column="1" Margin="10" Background="#FFE6E4B2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            
-            <StackPanel Grid.Row="0" Orientation="Vertical" Margin="0,5">
-                <StackPanel Orientation="Horizontal" Margin="2" >
-                    <TextBlock  Text="Before" 
-                                FontSize="18" 
-                                Width="80" 
-                                Background="{x:Null}" />
-                    <TextBlock  Name="TextBefore" 
-                                FontSize="16"
-                                Background="{x:Null}" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="2" >
-                    <TextBlock  Text="After" 
-                                FontSize="18" 
-                                Width="80" 
-                                Background="{x:Null}" />
-                    <TextBlock  Name="TextAfter"
-                                FontSize="16"
-                                Background="{x:Null}" />
-                </StackPanel>
-            </StackPanel>
+        <Grid Grid.Row="1" Grid.Column="1" Margin="10" Background="#FFE6E4B2" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
 
-            <StackPanel Grid.Row="1"  Margin="0,5">
-                <DockPanel Margin="2">
-                    <TextBlock  Text="ISBN"
+                <StackPanel Grid.Row="0" Orientation="Vertical" Margin="0,5">
+                    <StackPanel Orientation="Horizontal" Margin="2" >
+                        <TextBlock  Text="Before" 
                                 FontSize="18" 
                                 Width="80" 
                                 Background="{x:Null}" />
-                    <TextBox    Name="TextIsbn"
-                                Width="220" />
-                    
-                    
-                    <Button     Content="Search" 
+                        <TextBlock  Name="TextBefore" 
+                                FontSize="16"
+                                Background="{x:Null}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="2" >
+                        <TextBlock  Text="After" 
+                                FontSize="18" 
+                                Width="80" 
+                                Background="{x:Null}" />
+                        <TextBlock  Name="TextAfter"
+                                FontSize="16"
+                                Background="{x:Null}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Grid.Row="1"  Margin="0,5">
+                    <DockPanel Margin="2">
+                        <TextBlock  Text="ISBN"
+                                FontSize="18" 
+                                Width="80" 
+                                Background="{x:Null}" />
+                        <TextBox    Name="TextIsbn"
+                                Width="260" />
+                        <Button Content="Search" 
                                 Width="50" 
                                 HorizontalAlignment="Right" 
                                 cal:Message.Attach="[Event Click] = [Action SearchIsbn]" />
-                </DockPanel>
-                <ProgressBar    IsIndeterminate="True" 
+                    </DockPanel>
+                    <ProgressBar    IsIndeterminate="True" 
                                 HorizontalAlignment="Stretch"
                                 Height="4" 
                                 Margin="2" 
                                 Visibility="{Binding IsProgressEnabled, Mode=OneWay}" />
-            </StackPanel>
+                </StackPanel>
 
-            <StackPanel Grid.Row="2"  Margin="0,5" >
-                <DockPanel Margin="2">
-                    <TextBlock  Text="Title" 
+                <StackPanel Grid.Row="2"  Margin="0,5" >
+                    <DockPanel Margin="2">
+                        <TextBlock  Text="Title" 
                                 FontSize="18" 
                                 Width="80" 
                                 Background="{x:Null}" />
-                    <TextBox    Name="TextTitle" 
+                        <TextBox    Name="TextTitle" 
                                 HorizontalAlignment="Stretch"/>
-                </DockPanel>
-                <DockPanel Margin="2">
-                    <TextBlock  Text="Author"
+                    </DockPanel>
+                    <DockPanel Margin="2">
+                        <TextBlock  Text="Author"
                                 FontSize="18" 
                                 Width="80" 
                                 Background="{x:Null}" />
-                    <TextBox    Name="TextAuthor" 
+                        <TextBox    Name="TextAuthor" 
                                 HorizontalAlignment="Stretch"/>
-                </DockPanel>
-                <StackPanel Orientation="Horizontal" Margin="2">
-                    <TextBlock  Text="Published by"
-                                FontSize="18" 
-                                Width="120" 
-                                Background="{x:Null}" />
-                    <ComboBox   Name="ComboPublisher" 
-                                MinWidth="160"
-                                IsEditable="True"
-                                cal:Message.Attach="[Event CurrentChanged] = [Action ComboChangedAction]">
-                        <System:String>...</System:String>
-                        <System:String>Apress</System:String>
-                        <System:String>Wiley</System:String>
-                        <System:String>Wrox</System:String>
-                        <System:String>O'Reilly</System:String>
-                        <System:String>Prantice Hall</System:String>
-                        <System:String>Microsoft Press</System:String>
-                        <System:String>Addison-Wesley</System:String>
-                        <System:String>McGraw-Hill</System:String>
-                        <System:String>Packt Publishing</System:String>
-                        <System:String>Sybex</System:String>
-                    </ComboBox>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="2">
-                    <TextBlock  Text="Year"
+                    </DockPanel>
+                    <StackPanel Orientation="Horizontal" Margin="2">
+                        <TextBlock  Text="Published by"
+                                    FontSize="18" 
+                                    Width="120" 
+                                    Background="{x:Null}" />
+                    <ComboBox   Name="TextPublisher" 
+                                    Width="160"
+                                    IsEditable="True"
+                                    SelectedItem="{Binding SelectedTextPublisher, Mode=TwoWay}" >
+                        <!--cal:Message.Attach="[Event SelectionChanged] = [Action TextPublisherSelectionChanged(TextPublisher.SelectedItem)]">-->
+                            <System:String>Apress</System:String>
+                            <System:String>Wiley</System:String>
+                            <System:String>Wrox</System:String>
+                            <System:String>O'Reilly</System:String>
+                            <System:String>Prantice Hall</System:String>
+                            <System:String>Microsoft Press</System:String>
+                            <System:String>Addison-Wesley</System:String>
+                            <System:String>McGraw-Hill</System:String>
+                            <System:String>Packt Publishing</System:String>
+                            <System:String>Sybex</System:String>
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="2">
+                        <TextBlock  Text="Year"
                                 FontSize="18" 
                                 Width="80" 
                                 Background="{x:Null}" />
-                    <TextBox    Name="TextYear" 
+                        <TextBox    Name="TextYear" 
                                 Width="100"/>
+                    </StackPanel>
                 </StackPanel>
-            </StackPanel>
-        </Grid>
+            </Grid>
         
+        <!-- Bottom Row (LOG) -->
+        <ScrollViewer VerticalScrollBarVisibility="Auto" 
+                      Grid.ColumnSpan="2"
+                      Grid.Row="2" 
+                      Grid.Column="0">
+            <TextBox />
+        </ScrollViewer>
     </Grid>
 </Window>
