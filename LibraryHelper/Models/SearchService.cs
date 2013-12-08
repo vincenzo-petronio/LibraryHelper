@@ -26,7 +26,9 @@ namespace LibraryHelper.Models
 
             try
             {
-                string url = string.Format(FindByAuthorTitleIsbn, Configs.API_KEY_GOODREADS, isbn);
+                string key = System.Configuration.ConfigurationManager.AppSettings.Get("API_KEY_GOODREADS");
+                App.logger.Debug("DEV KEY: \t" + key);
+                string url = string.Format(FindByAuthorTitleIsbn, key, isbn);
                 await GetXmlResponse(url);
                 
                 // TODO Parser

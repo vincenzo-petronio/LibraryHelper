@@ -59,6 +59,7 @@
       <HintPath>..\packages\NLog.2.1.0\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.2.0.0-alpha2\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -80,7 +81,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Configs.cs" />
     <Compile Include="IShell.cs" />
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\ISearchService.cs" />
