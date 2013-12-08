@@ -1,19 +1,21 @@
 ﻿namespace LibraryHelper.ViewModels
 {
     using Caliburn.Micro;
-    using Microsoft.Win32;
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+using LibraryHelper.Models;
+using Microsoft.Win32;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
     /// <summary>
     /// ViewModel for MainView
     /// </summary>
     public class MainViewModel : PropertyChangedBase
     {
+        private ISearchService searchService;
         private string title = string.Empty;
         private string textBefore = string.Empty;
         private string textAfter = string.Empty;
@@ -24,10 +26,15 @@
         private string selectedTextPublisher = string.Empty;
         private OpenFileDialog openFileDialog;
 
-        public MainViewModel()
+        /// <summary>
+        ///  Constructor.
+        /// </summary>
+        /// <param name="ss">Constructor Injection</param>
+        public MainViewModel(ISearchService ss)
         {
             // INIT
             title = "Library Helper";
+            this.searchService = ss;
         }
 
         /// <summary>
@@ -318,7 +325,7 @@
         /// <summary>
         /// Action for Click Event on Search ISBN button.
         /// </summary>
-        public void SearchIsbn()
+        public async void SearchIsbn()
         {
             App.logger.Debug("SearchIsbn called...");
         }

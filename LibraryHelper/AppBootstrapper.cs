@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using Caliburn.Micro;
     using LibraryHelper.ViewModels;
+    using LibraryHelper.Models;
 
     /// <summary>
     /// Personal bootstrapper inherited from Caliburn.Micro BootstrapperBase
@@ -29,6 +30,7 @@
             container.Singleton<IWindowManager, WindowManager>();
             container.Singleton<IEventAggregator, EventAggregator>();
             container.PerRequest<IShell, ShellViewModel>();
+            container.Singleton<ISearchService, SearchService>();
             container.Singleton<MainViewModel>();
 
             AddCustomConventions();

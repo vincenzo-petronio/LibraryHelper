@@ -80,7 +80,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Configs.cs" />
     <Compile Include="IShell.cs" />
+    <Compile Include="Models\Book.cs" />
+    <Compile Include="Models\ISearchService.cs" />
+    <Compile Include="Models\SearchService.cs" />
     <Compile Include="ShellViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Views\MainView.xaml.cs">
@@ -134,9 +138,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
       <Visible>False</Visible>
