@@ -335,6 +335,11 @@ using System.Threading.Tasks;
         public async void SearchIsbn()
         {
             App.logger.Debug("SearchIsbn called...");
+            if (!string.IsNullOrEmpty(TextIsbn))
+            {
+                Book b = await searchService.SearchForIsbnAsync(this.TextIsbn);
+                App.logger.Info("Book found: \t" + b.Title);
+            }
         }
     }
 }
