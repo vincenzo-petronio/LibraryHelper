@@ -34,6 +34,13 @@ using System.Threading.Tasks;
         {
             // INIT
             title = "Library Helper";
+
+            // Guard Clause
+            if (ss == null)
+            {
+                throw new ArgumentNullException("SearchService");
+            }
+
             this.searchService = ss;
         }
 
