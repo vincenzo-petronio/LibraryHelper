@@ -48,11 +48,11 @@
         private void CleanGui()
         {
             this.TextBefore = string.Empty;
-            this.TextAfter = string.Empty;
             this.TextAuthor = string.Empty;
             this.TextIsbn = string.Empty;
             this.TextTitle = string.Empty;
             this.TextYear = string.Empty;
+            this.TextAfter = string.Empty;
         }
 
         /// <summary>
@@ -131,6 +131,7 @@
                 {
                     textTitle = value;
                     NotifyOfPropertyChange(() => TextTitle);
+                    TextAfter = GetFinalFilename();
                 }
             }
         }
@@ -151,6 +152,7 @@
                 {
                     textAuthor = value;
                     NotifyOfPropertyChange(() => TextAuthor);
+                    TextAfter = GetFinalFilename();
                 }
             }
         }
@@ -171,6 +173,7 @@
                 {
                     selectedTextPublisher = value;
                     NotifyOfPropertyChange(() => SelectedTextPublisher);
+                    TextAfter = GetFinalFilename();
                 }
             }
         }
@@ -191,6 +194,7 @@
                 {
                     textYear = value;
                     NotifyOfPropertyChange(() => TextYear);
+                    TextAfter = GetFinalFilename();
                 }
             }
         }
@@ -211,6 +215,7 @@
                 {
                     textIsbn = value;
                     NotifyOfPropertyChange(() => TextIsbn);
+                    TextAfter = GetFinalFilename();
                 }
             }
         }
@@ -249,26 +254,12 @@
                 !string.IsNullOrEmpty(this.SelectedTextPublisher) && 
                 !string.IsNullOrEmpty(this.TextYear) && !string.IsNullOrEmpty(this.TextIsbn))
             {
-                // Pattern new filename
-                string newFilename =
-                    this.TextTitle
-                    + "._." +
-                    this.TextAuthor
-                    + "._." +
-                    this.SelectedTextPublisher
-                    + "._." +
-                    this.TextYear
-                    + "._." +
-                    this.TextIsbn
-                    + Path.GetExtension(openFileDialog.FileName)
-                    ;
-
                 // Selected filename (full path)
                 string selectedFilename = openFileDialog.FileName;
                 App.logger.Debug("FileName: {0}", selectedFilename);
 
                 // Selected filename merged to new Filename
-                string mergedFilename = Path.Combine(Path.GetDirectoryName(openFileDialog.FileName), newFilename);
+                string mergedFilename = Path.Combine(Path.GetDirectoryName(openFileDialog.FileName), this.GetFinalFilename());
                 App.logger.Debug("FileName merged: {0}", mergedFilename);
 
                 // Replace
@@ -291,6 +282,28 @@
                 // TODO 
                 App.logger.Info("Not all text fields are filled!");
             }
+        }
+
+        /// <summary>
+        /// Return string for filename based on filled text fields.
+        /// </summary>
+        /// <returns>string filename</returns>
+        private string GetFinalFilename()
+        {
+            // Pattern new filename
+            string newFilename =
+                this.TextTitle
+                + "._." +
+                this.TextAuthor
+                + "._." +
+                this.SelectedTextPublisher
+                + "._." +
+                this.TextYear
+                + "._." +
+                this.TextIsbn
+                + 
+                Path.GetExtension(openFileDialog.FileName);
+            return newFilename;
         }
 
         /// <summary>
