@@ -338,7 +338,13 @@ using System.Threading.Tasks;
             if (!string.IsNullOrEmpty(TextIsbn))
             {
                 Book b = await searchService.SearchForIsbnAsync(this.TextIsbn);
-                App.logger.Info("Book found: \t" + b.Title);
+                if (b != null)
+                {
+                    App.logger.Info("Book found: \t" + b.Title);
+                    this.TextAuthor = b.Author;
+                    this.TextTitle = b.Title;
+                    this.TextYear = b.Year;
+                }
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LibraryHelper.Utils;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -29,9 +30,14 @@ namespace LibraryHelper.Models
                 string key = System.Configuration.ConfigurationManager.AppSettings.Get("API_KEY_GOODREADS");
                 App.logger.Debug("DEV KEY: \t" + key);
                 string url = string.Format(FindByAuthorTitleIsbn, key, isbn);
-                await GetXmlResponse(url);
                 
-                // TODO Parser
+                string xmlResponse = await GetXmlResponse(url);
+
+                if (!string.IsNullOrEmpty(xmlResponse))
+                {
+                    // TODO Parser
+                    book = XmlParserGoodreads.ParseResponseForIsbn(xmlResponse);
+                }
             }
             catch (Exception e)
             {
@@ -46,12 +52,12 @@ namespace LibraryHelper.Models
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        private async Task<XDocument> GetXmlResponse(string url)
+        private async Task<string> GetXmlResponse(string url)
         {
             string result = string.Empty;
             try
             {
-                var httpWebReq = (HttpWebRequest)WebRequest.Create(url);
+                var httpWebReq = (HttpWebRequest)WebRequest.Create(new Uri(url));
                 httpWebReq.Method = "GET";
 
                 using (WebResponse webRes = await httpWebReq.GetResponseAsync())
@@ -59,7 +65,7 @@ namespace LibraryHelper.Models
                     using (StreamReader resStream = new StreamReader(webRes.GetResponseStream()))
                     {
                         result = await resStream.ReadToEndAsync();
-                        App.logger.Debug(result);
+                        App.logger.Debug("\n\n" + result + "\n\n");
                     }
                 }
             }
@@ -68,7 +74,7 @@ namespace LibraryHelper.Models
                 App.logger.Error(e.ToString());
             }
 
-            return XDocument.Load(result);
+            return result;
         }
     }
 }
