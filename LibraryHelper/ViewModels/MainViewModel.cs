@@ -25,6 +25,7 @@ using System.Threading.Tasks;
         private string textIsbn = string.Empty;
         private string selectedTextPublisher = string.Empty;
         private OpenFileDialog openFileDialog;
+        private bool isRightGridEnabled = false;
 
         /// <summary>
         ///  Constructor.
@@ -67,6 +68,26 @@ using System.Threading.Tasks;
             this.TextTitle = string.Empty;
             this.TextYear = string.Empty;
             this.TextAfter = string.Empty;
+        }
+
+        /// <summary>
+        /// Bool property for visibility of left grid of window.
+        /// </summary>
+        public bool IsRightGridEnabled
+        {
+            get
+            {
+                return isRightGridEnabled;
+            }
+
+            set
+            {
+                if (isRightGridEnabled != value)
+                {
+                    isRightGridEnabled = value;
+                    NotifyOfPropertyChange(() => IsRightGridEnabled);
+                }
+            }
         }
 
         /// <summary>
@@ -246,6 +267,7 @@ using System.Threading.Tasks;
             if (result != null && result == true)
             {
                 App.logger.Debug("File selected: \t" + openFileDialog.FileName);
+                IsRightGridEnabled = true;
                 string fileNameNoExtension = Path.GetFileNameWithoutExtension(openFileDialog.FileName);
                 this.TextBefore = openFileDialog.FileName;
                 this.TextTitle = fileNameNoExtension;
@@ -253,6 +275,7 @@ using System.Threading.Tasks;
             else
             {
                 this.CleanGui();
+                IsRightGridEnabled = false;
             }
         }
 
@@ -317,7 +340,18 @@ using System.Threading.Tasks;
                 this.TextIsbn
                 + 
                 Path.GetExtension(openFileDialog.FileName);
-            return newFilename;
+            return PurgeFilename(newFilename);
+        }
+
+        /// <summary>
+        /// Purge filename from unwanted chars.
+        /// </summary>
+        /// <returns>string</returns>
+        private string PurgeFilename(string filenameBefore)
+        {
+            string filenameAfter = string.Empty;
+            filenameAfter = filenameBefore.Replace(" ", ".");
+            return filenameAfter;
         }
 
         /// <summary>

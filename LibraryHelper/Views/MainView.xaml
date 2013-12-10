@@ -36,7 +36,8 @@
         </Grid>
         
         <!-- Right column -->
-        <Grid Grid.Row="1" Grid.Column="1" Margin="10" Background="#FFE6E4B2" >
+        <Grid Grid.Row="1" Grid.Column="1" Margin="10" Background="#FFE6E4B2" 
+              IsEnabled="{Binding IsRightGridEnabled}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
