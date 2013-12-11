@@ -75,14 +75,15 @@
                                 Width="260" />
                         <Button Content="Search" 
                                 Width="50" 
+                                IsEnabled="{Binding IsSearchButtonEnabled, Mode=OneWay}"
                                 HorizontalAlignment="Right" 
                                 cal:Message.Attach="[Event Click] = [Action SearchIsbn]" />
                     </DockPanel>
-                    <ProgressBar    IsIndeterminate="True" 
+                <ProgressBar    IsIndeterminate="True" 
                                 HorizontalAlignment="Stretch"
                                 Height="4" 
                                 Margin="2" 
-                                Visibility="{Binding IsProgressEnabled, Mode=OneWay}" />
+                                Visibility="{Binding IsProgressEnabled, Mode=OneWay, Converter={StaticResource BoolToVisConv}}" />
                 </StackPanel>
 
                 <StackPanel Grid.Row="2"  Margin="0,5" >

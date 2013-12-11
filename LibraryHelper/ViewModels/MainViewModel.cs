@@ -1,14 +1,15 @@
 ﻿namespace LibraryHelper.ViewModels
 {
     using Caliburn.Micro;
-using LibraryHelper.Models;
-using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+    using LibraryHelper.Models;
+    using Microsoft.Win32;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Windows.Threading;
 
     /// <summary>
     /// ViewModel for MainView
@@ -26,6 +27,9 @@ using System.Threading.Tasks;
         private string selectedTextPublisher = string.Empty;
         private OpenFileDialog openFileDialog;
         private bool isRightGridEnabled = false;
+        private bool isProgressEnabled = false;
+        private bool isSearchButtonEnabled = true;
+        private DispatcherTimer dTimer;
 
         /// <summary>
         ///  Constructor.
@@ -35,6 +39,9 @@ using System.Threading.Tasks;
         {
             // INIT
             title = "Library Helper";
+            dTimer = new DispatcherTimer();
+            dTimer.Tick += new EventHandler(dTimer_Tick);
+            dTimer.Interval = new TimeSpan(0, 0, 2); // 2 sec
 
             // Guard Clause
             if (ss == null)
@@ -43,6 +50,20 @@ using System.Threading.Tasks;
             }
 
             this.searchService = ss;
+        }
+
+        /// <summary>
+        /// Handler for DispatcherTimer.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dTimer_Tick(object sender, EventArgs e)
+        {
+            // GoodReads Developer Terms of Service:
+            // 1. Not request any method more than once a second.
+            App.logger.Debug("TimerTick");
+            dTimer.Stop();
+            IsSearchButtonEnabled = true;
         }
 
         /// <summary>
@@ -86,6 +107,46 @@ using System.Threading.Tasks;
                 {
                     isRightGridEnabled = value;
                     NotifyOfPropertyChange(() => IsRightGridEnabled);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Boolean property for ProgressBar 
+        /// </summary>
+        public bool IsProgressEnabled
+        {
+            get
+            {
+                return isProgressEnabled;
+            }
+
+            set
+            {
+                if (isProgressEnabled != value)
+                {
+                    isProgressEnabled = value;
+                    NotifyOfPropertyChange(() => IsProgressEnabled);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Boolean property for Search Button.
+        /// </summary>
+        public bool IsSearchButtonEnabled
+        {
+            get
+            {
+                return isSearchButtonEnabled;
+            }
+
+            set
+            {
+                if (isSearchButtonEnabled != value)
+                {
+                    isSearchButtonEnabled = value;
+                    NotifyOfPropertyChange(() => IsSearchButtonEnabled);
                 }
             }
         }
@@ -371,6 +432,10 @@ using System.Threading.Tasks;
             App.logger.Debug("SearchIsbn called...");
             if (!string.IsNullOrEmpty(TextIsbn))
             {
+                IsProgressEnabled = true;
+                IsSearchButtonEnabled = false;
+                dTimer.Start();
+
                 Book b = await searchService.SearchForIsbnAsync(this.TextIsbn);
                 if (b != null)
                 {
@@ -378,6 +443,7 @@ using System.Threading.Tasks;
                     this.TextAuthor = b.Author;
                     this.TextTitle = b.Title;
                     this.TextYear = b.Year;
+                    IsProgressEnabled = false;
                 }
             }
         }

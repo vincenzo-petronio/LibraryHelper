@@ -86,6 +86,7 @@
     <Compile Include="Models\ISearchService.cs" />
     <Compile Include="Models\SearchService.cs" />
     <Compile Include="ShellViewModel.cs" />
+    <Compile Include="Utils\BoolToVisibilityConverter.cs" />
     <Compile Include="Utils\XmlParserGoodreads.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Views\MainView.xaml.cs">
