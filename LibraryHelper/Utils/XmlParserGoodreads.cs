@@ -30,10 +30,6 @@ namespace LibraryHelper.Utils
                                 .Element("name").Value 
                                 : 
                                 string.Empty,
-                       ////Edition = b.Element("") != null ? b.Element("").Value : string.Empty,
-                       ////Isbn10 = b.Element("") != null ? b.Element("").Value : string.Empty,
-                       ////Isbn13 = b.Element("") != null ? b.Element("").Value : string.Empty,
-                       ////Publisher = 
                        Title = b.Descendants("best_book").First()
                                 .Element("title") != null 
                                 ?
@@ -45,6 +41,11 @@ namespace LibraryHelper.Utils
                                 ? 
                                 b.Element("original_publication_year").Value 
                                 : 
+                                string.Empty,
+                       BackLink = b.Descendants("best_book").First().Element("id") != null
+                                ?
+                                b.Descendants("best_book").First().Element("id").Value
+                                :
                                 string.Empty,
                    }).First();
 

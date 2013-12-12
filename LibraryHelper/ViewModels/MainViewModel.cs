@@ -18,6 +18,7 @@
     /// </summary>
     public class MainViewModel : PropertyChangedBase
     {
+        private const string backLinkIsbn = @"https://www.goodreads.com/book/isbn/{0}";
         private ISearchService searchService;
         private string title = string.Empty;
         private string textBefore = string.Empty;
@@ -40,7 +41,7 @@
         public MainViewModel(ISearchService ss)
         {
             // INIT
-            title = "Library Helper";
+            title = "Library Helper v1.0.0.0";
             dTimer = new DispatcherTimer();
             dTimer.Tick += new EventHandler(dTimer_Tick);
             dTimer.Interval = new TimeSpan(0, 0, 2); // 2 sec
@@ -441,12 +442,14 @@
                 Book b = await searchService.SearchForIsbnAsync(this.TextIsbn);
                 if (b != null)
                 {
-                    App.logger.Info("Book found: \t" + b.Title);
+                    // GoodReads Developer Terms of Service:
+                    // 3. Link back to the page on Goodreads where the data data appears.
+                    App.logger.Info("Book found on GoodReads: \t" + string.Format(backLinkIsbn, b.BackLink));
                     this.TextAuthor = b.Author;
                     this.TextTitle = b.Title;
                     this.TextYear = b.Year;
-                    IsProgressEnabled = false;
                 }
+                IsProgressEnabled = false;
             }
         }
 

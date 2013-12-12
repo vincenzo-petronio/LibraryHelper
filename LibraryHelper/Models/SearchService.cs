@@ -1,6 +1,7 @@
 ﻿using LibraryHelper.Utils;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -21,40 +22,46 @@ namespace LibraryHelper.Models
         /// <returns>Book</returns>
         public async Task<Book> SearchForIsbnAsync(string isbn)
         {
-            Book book = new Book();
-
-            // TODO purge chars from isbn and check if isbn length == 10 OR 13
-
+            Book book = null;
+            
             try
             {
                 string key = System.Configuration.ConfigurationManager.AppSettings.Get("API_KEY_GOODREADS");
                 App.logger.Debug("DEV KEY: \t" + key);
                 string url = string.Format(FindByAuthorTitleIsbn, key, isbn);
-                
+
                 string xmlResponse = await GetXmlResponse(url);
 
                 if (!string.IsNullOrEmpty(xmlResponse))
                 {
-                    // TODO Parser
                     book = XmlParserGoodreads.ParseResponseForIsbn(xmlResponse);
                 }
+                else
+                {
+                    App.logger.Info("No data from Web Service!");
+                }
+            }
+            catch (ConfigurationErrorsException)
+            {
+                App.logger.Error("NO API KEY");
             }
             catch (Exception e)
             {
-                // TODO
+                App.logger.Error(e.Message);
             }
 
             return book;
         }
 
         /// <summary>
-        /// 
+        /// Return response from Web Service.
         /// </summary>
-        /// <param name="url"></param>
-        /// <returns></returns>
+        /// <param name="url">string</param>
+        /// <returns>string</returns>
         private async Task<string> GetXmlResponse(string url)
         {
             string result = string.Empty;
+            
             try
             {
                 var httpWebReq = (HttpWebRequest)WebRequest.Create(new Uri(url));

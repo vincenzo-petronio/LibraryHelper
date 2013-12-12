@@ -24,5 +24,7 @@ namespace LibraryHelper.Models
         public string Isbn13 { get; set; }
 
         public string Edition { get; set; }
+
+        public string BackLink { get; set; }
     }
 }
