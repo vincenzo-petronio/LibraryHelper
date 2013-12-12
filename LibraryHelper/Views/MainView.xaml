@@ -71,9 +71,10 @@
                                 FontSize="18" 
                                 Width="80" 
                                 Background="{x:Null}" />
-                        <TextBox    Name="TextIsbn"
-                                Width="260" />
-                        <Button Content="Search" 
+                    <TextBox    Name="TextIsbn"
+                                Width="260" 
+                                cal:Message.Attach="[Event PreviewTextInput] = [Action IsbnValidation($eventArgs)]"/>
+                    <Button Content="Search" 
                                 Width="50" 
                                 IsEnabled="{Binding IsSearchButtonEnabled, Mode=OneWay}"
                                 HorizontalAlignment="Right" 
@@ -127,12 +128,14 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="2">
                         <TextBlock  Text="Year"
-                                FontSize="18" 
-                                Width="80" 
-                                Background="{x:Null}" />
+                                    FontSize="18" 
+                                    Width="80" 
+                                    Background="{x:Null}" />
                         <TextBox    Name="TextYear" 
-                                Width="100"/>
-                    </StackPanel>
+                                    Width="100" 
+                                    MaxLength="4"
+                                    cal:Message.Attach="[Event PreviewTextInput] = [Action NumberValidation($eventArgs)]" />
+                </StackPanel>
                 </StackPanel>
             </Grid>
         

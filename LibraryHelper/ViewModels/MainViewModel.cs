@@ -8,7 +8,9 @@
     using System.IO;
     using System.Linq;
     using System.Text;
+    using System.Text.RegularExpressions;
     using System.Threading.Tasks;
+    using System.Windows.Input;
     using System.Windows.Threading;
 
     /// <summary>
@@ -446,6 +448,42 @@
                     IsProgressEnabled = false;
                 }
             }
+        }
+
+        /// <summary>
+        /// Validator for Isbn TextBox.
+        /// </summary>
+        /// <param name="e">TextCompositionEventArgs</param>
+        public void IsbnValidation(TextCompositionEventArgs e)
+        {
+            App.logger.Debug("IsbnValidation called...");
+            if (e == null) return;
+            e.Handled = !isOnlyIsbn(e.Text);
+        }
+
+        /// <summary>
+        /// Validator for numbers only TextBox
+        /// </summary>
+        /// <param name="e">TextCompositionEventArgs</param>
+        public void NumberValidation(TextCompositionEventArgs e)
+        {
+            App.logger.Debug("NumberValidation called...");
+            if (e == null) return;
+            e.Handled = !isOnlyNumber(e.Text);
+        }
+
+        private bool isOnlyNumber(string s)
+        {
+            // Accept only numeric values
+            Regex regex = new Regex("[^0-9]+");
+            return !regex.IsMatch(s);
+        }
+
+        private bool isOnlyIsbn(string s)
+        {
+            // Accept numeric values and chars x X
+            Regex regex = new Regex("[^0-9xX-]+");
+            return !regex.IsMatch(s);
         }
     }
 }
