@@ -28,15 +28,17 @@
         <Grid Grid.Row="1" Grid.Column="0" >
             <StackPanel Orientation="Vertical" Margin="10">
                 <Button Content="Load book ..." 
-                        cal:Message.Attach="[Event Click] = [Action LoadAction]" />
+                        cal:Message.Attach="[Event Click] = [Action LoadAction]" 
+                        Margin="10" />
                 <Button Content="Rename" 
                         cal:Message.Attach="[Event Click] = [Action RenameAction]" 
-                        Background="#FFF08686" />
+                        Background="#FFF08686" 
+                        Margin="10" />
             </StackPanel>
         </Grid>
         
         <!-- Right column -->
-        <Grid Grid.Row="1" Grid.Column="1" Margin="10" Background="#FFE6E4B2" 
+        <Grid Grid.Row="1" Grid.Column="1" Margin="10" Background="White" 
               IsEnabled="{Binding IsRightGridEnabled}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -44,100 +46,78 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-                <StackPanel Grid.Row="0" Orientation="Vertical" Margin="0,5">
-                    <StackPanel Orientation="Horizontal" Margin="2" >
-                        <TextBlock  Text="Before" 
-                                FontSize="18" 
-                                Width="80" 
-                                Background="{x:Null}" />
-                        <TextBlock  Name="TextBefore" 
-                                FontSize="16"
-                                Background="{x:Null}" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="2" >
-                        <TextBlock  Text="After" 
-                                FontSize="18" 
-                                Width="80" 
-                                Background="{x:Null}" />
-                        <TextBlock  Name="TextAfter"
-                                FontSize="16"
-                                Background="{x:Null}" />
-                    </StackPanel>
-                </StackPanel>
+            <StackPanel Grid.Row="0" Orientation="Vertical" Margin="0,5">
+                <GroupBox Header="Before" Padding="4">
+                    <TextBlock  Name="TextBefore" 
+                            FontSize="16"
+                            Background="{x:Null}" />
+                </GroupBox>
+                <GroupBox Header="After" Padding="4">
+                    <TextBlock  Name="TextAfter"
+                            FontSize="16"
+                            Background="{x:Null}" />
+                </GroupBox>
+            </StackPanel>
 
-                <StackPanel Grid.Row="1"  Margin="0,5">
-                    <DockPanel Margin="2">
-                        <TextBlock  Text="ISBN"
-                                FontSize="18" 
-                                Width="80" 
-                                Background="{x:Null}" />
-                    <TextBox    Name="TextIsbn"
-                                Width="260" 
-                                cal:Message.Attach="[Event PreviewTextInput] = [Action IsbnValidation($eventArgs)]"/>
-                    <Button Content="Search" 
-                                Width="50" 
-                                IsEnabled="{Binding IsSearchButtonEnabled, Mode=OneWay}"
-                                HorizontalAlignment="Right" 
-                                cal:Message.Attach="[Event Click] = [Action SearchIsbn]" />
-                    </DockPanel>
-                <ProgressBar    IsIndeterminate="True" 
-                                HorizontalAlignment="Stretch"
-                                Height="4" 
-                                Margin="2" 
-                                Visibility="{Binding IsProgressEnabled, Mode=OneWay, Converter={StaticResource BoolToVisConv}}" />
+            <GroupBox Header="ISBN" Grid.Row="1" Margin="0,5" Padding="4">
+                <StackPanel Orientation="Vertical">
+                    <DockPanel Margin="2" >
+                        <TextBox    Name="TextIsbn"
+                                    Width="260" 
+                                    cal:Message.Attach="[Event PreviewTextInput] = [Action IsbnValidation($eventArgs)]"/>
+                        <Button     DockPanel.Dock="Right"
+                                    Content="Search" 
+                                    Width="50" 
+                                    IsEnabled="{Binding IsSearchButtonEnabled, Mode=OneWay}"
+                                    HorizontalAlignment="Right" 
+                                    cal:Message.Attach="[Event Click] = [Action SearchIsbn]" />
+                        </DockPanel>
+                    <ProgressBar    DockPanel.Dock="Bottom"
+                                    IsIndeterminate="True" 
+                                    HorizontalAlignment="Stretch"
+                                    Height="4" 
+                                    Margin="2" 
+                                    Visibility="{Binding IsProgressEnabled, Mode=OneWay, Converter={StaticResource BoolToVisConv}}" />
                 </StackPanel>
+            </GroupBox>
 
-                <StackPanel Grid.Row="2"  Margin="0,5" >
-                    <DockPanel Margin="2">
-                        <TextBlock  Text="Title" 
-                                FontSize="18" 
-                                Width="80" 
-                                Background="{x:Null}" />
-                        <TextBox    Name="TextTitle" 
+            <StackPanel Grid.Row="2"  Margin="0,5" >
+                <GroupBox Header="Title" Padding="4">
+                    <TextBox    Name="TextTitle" 
                                 HorizontalAlignment="Stretch"/>
-                    </DockPanel>
-                    <DockPanel Margin="2">
-                        <TextBlock  Text="Author"
-                                FontSize="18" 
-                                Width="80" 
-                                Background="{x:Null}" />
-                        <TextBox    Name="TextAuthor" 
+                </GroupBox>
+                <GroupBox Header="Author" Padding="4">
+                    <TextBox    Name="TextAuthor" 
                                 HorizontalAlignment="Stretch"/>
-                    </DockPanel>
-                    <StackPanel Orientation="Horizontal" Margin="2">
-                        <TextBlock  Text="Published by"
-                                    FontSize="18" 
-                                    Width="120" 
-                                    Background="{x:Null}" />
+                </GroupBox>
+                <GroupBox Header="Published by" Padding="4">
                     <ComboBox   Name="TextPublisher" 
-                                    Width="160"
-                                    IsEditable="True"
-                                    SelectedItem="{Binding SelectedTextPublisher, Mode=TwoWay}" >
+                                HorizontalAlignment="Left"
+                                Width="180"
+                                IsEditable="True"
+                                SelectedItem="{Binding SelectedTextPublisher, Mode=TwoWay}" >
                         <!--cal:Message.Attach="[Event SelectionChanged] = [Action TextPublisherSelectionChanged(TextPublisher.SelectedItem)]">-->
-                            <System:String>Apress</System:String>
-                            <System:String>Wiley</System:String>
-                            <System:String>Wrox</System:String>
-                            <System:String>O'Reilly</System:String>
-                            <System:String>Prantice Hall</System:String>
-                            <System:String>Microsoft Press</System:String>
-                            <System:String>Addison-Wesley</System:String>
-                            <System:String>McGraw-Hill</System:String>
-                            <System:String>Packt Publishing</System:String>
-                            <System:String>Sybex</System:String>
-                        </ComboBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="2">
-                        <TextBlock  Text="Year"
-                                    FontSize="18" 
-                                    Width="80" 
-                                    Background="{x:Null}" />
-                        <TextBox    Name="TextYear" 
-                                    Width="100" 
-                                    MaxLength="4"
-                                    cal:Message.Attach="[Event PreviewTextInput] = [Action NumberValidation($eventArgs)]" />
-                </StackPanel>
-                </StackPanel>
-            </Grid>
+                        <System:String>Apress</System:String>
+                        <System:String>Wiley</System:String>
+                        <System:String>Wrox</System:String>
+                        <System:String>O'Reilly</System:String>
+                        <System:String>Prantice Hall</System:String>
+                        <System:String>Microsoft Press</System:String>
+                        <System:String>Addison-Wesley</System:String>
+                        <System:String>McGraw-Hill</System:String>
+                        <System:String>Packt Publishing</System:String>
+                        <System:String>Sybex</System:String>
+                    </ComboBox>
+                </GroupBox>
+                <GroupBox Header="Year" Padding="4">
+                    <TextBox    Name="TextYear" 
+                                Width="100" 
+                                MaxLength="4"
+                                HorizontalAlignment="Left"
+                                cal:Message.Attach="[Event PreviewTextInput] = [Action NumberValidation($eventArgs)]" />
+                </GroupBox>
+            </StackPanel>
+        </Grid>
         
         <!-- Bottom Row (LOG) -->
         <ScrollViewer VerticalScrollBarVisibility="Auto" 
