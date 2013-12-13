@@ -100,16 +100,17 @@
                                 IsEditable="True"
                                 SelectedItem="{Binding SelectedTextPublisher, Mode=TwoWay}" >
                         <!--cal:Message.Attach="[Event SelectionChanged] = [Action TextPublisherSelectionChanged(TextPublisher.SelectedItem)]">-->
+                        <System:String>Addison-Wesley</System:String>
                         <System:String>Apress</System:String>
+                        <System:String>Manning</System:String>
+                        <System:String>McGraw-Hill</System:String>
+                        <System:String>Microsoft Press</System:String>
+                        <System:String>O'Reilly</System:String>
+                        <System:String>Packt Publishing</System:String>
+                        <System:String>Prantice Hall</System:String>
+                        <System:String>Sybex</System:String>
                         <System:String>Wiley</System:String>
                         <System:String>Wrox</System:String>
-                        <System:String>O'Reilly</System:String>
-                        <System:String>Prantice Hall</System:String>
-                        <System:String>Microsoft Press</System:String>
-                        <System:String>Addison-Wesley</System:String>
-                        <System:String>McGraw-Hill</System:String>
-                        <System:String>Packt Publishing</System:String>
-                        <System:String>Sybex</System:String>
                     </ComboBox>
                 </GroupBox>
                 <GroupBox Header="Year" Padding="4">
