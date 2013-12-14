@@ -98,8 +98,8 @@
                                 HorizontalAlignment="Left"
                                 Width="180"
                                 IsEditable="True"
-                                SelectedItem="{Binding SelectedTextPublisher, Mode=TwoWay}" >
-                        <!--cal:Message.Attach="[Event SelectionChanged] = [Action TextPublisherSelectionChanged(TextPublisher.SelectedItem)]">-->
+                                SelectedItem="{Binding SelectedTextPublisher, Mode=TwoWay}"
+                                cal:Message.Attach="[Event LostFocus] = [Action TextPublisherLostFocus(TextPublisher.Text)]" >
                         <System:String>Addison-Wesley</System:String>
                         <System:String>Apress</System:String>
                         <System:String>Manning</System:String>

@@ -91,6 +91,7 @@
             this.TextIsbn = string.Empty;
             this.TextTitle = string.Empty;
             this.TextYear = string.Empty;
+            this.SelectedTextPublisher = string.Empty;
             this.TextAfter = string.Empty;
         }
 
@@ -368,6 +369,7 @@
                 {
                     File.Move(selectedFilename, mergedFilename);
                     App.logger.Info("File was renamed successfully!");
+                    CleanGui();
                 }
                 catch (Exception e)
                 {
@@ -375,7 +377,7 @@
                 }
                 finally
                 {
-                    CleanGui();
+                    //CleanGui();
                 }
             }
             else
@@ -401,7 +403,7 @@
                 + "._." +
                 this.TextYear
                 + "._." +
-                this.TextIsbn
+                this.TextIsbn.Replace("-", "")
                 + 
                 Path.GetExtension(openFileDialog.FileName);
             return PurgeFilename(newFilename);
@@ -419,9 +421,9 @@
         }
 
         /// <summary>
-        /// Action for Changed item Event on Combobox.
+        /// Action for Lost Focus Event on Combobox.
         /// </summary>
-        public void TextPublisherSelectionChanged(object item)
+        public void TextPublisherLostFocus(object item)
         {
             App.logger.Debug("TextPublisherSelectionChanged called... {0}", (string)item);
             this.SelectedTextPublisher = item as string;
