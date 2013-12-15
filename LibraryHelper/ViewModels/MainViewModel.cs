@@ -327,6 +327,7 @@
         {
             App.logger.Debug("LoadAction called...");
 
+            this.CleanGui();
             this.InitFileDialog();
             Nullable<bool> result = openFileDialog.ShowDialog();
             if (result != null && result == true)
@@ -339,7 +340,6 @@
             }
             else
             {
-                this.CleanGui();
                 IsRightGridEnabled = false;
             }
         }

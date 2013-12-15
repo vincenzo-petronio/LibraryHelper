@@ -49,19 +49,31 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-            <StackPanel Grid.Row="0" Orientation="Vertical" Margin="0,5">
-                <GroupBox Header="Before" Padding="4">
-                    <TextBlock  Name="TextBefore" 
-                            FontSize="16"
-                            Background="{x:Null}" />
-                </GroupBox>
-                <GroupBox Header="After" Padding="4">
-                    <TextBlock  Name="TextAfter"
-                            FontSize="16"
-                            Background="{x:Null}" />
-                </GroupBox>
-            </StackPanel>
+            <!-- GROUP FILENAME -->
+            <GroupBox Grid.Row="0" Margin="0,5" Header="Filename" Padding="4">
+                <StackPanel Orientation="Vertical">
+                    <DockPanel Margin="0,2">
+                        <TextBlock  Text="Before" 
+                                    Width="60" 
+                                    DockPanel.Dock="Left"/>
+                        <TextBlock  Name="TextBefore" 
+                                    FontSize="16"
+                                    DockPanel.Dock="Right"
+                                    Background="{x:Null}" />
+                    </DockPanel>
+                    <DockPanel Margin="0,2">
+                        <TextBlock  Text="After" 
+                                    Width="60" 
+                                    DockPanel.Dock="Left"/>
+                        <TextBlock  Name="TextAfter"
+                                    FontSize="16"
+                                    DockPanel.Dock="Right"
+                                    Background="{x:Null}" />
+                    </DockPanel>
+                </StackPanel>
+            </GroupBox>
 
+            <!-- GROUP ISBN -->
             <GroupBox Header="ISBN" Grid.Row="1" Margin="0,5" Padding="4">
                 <StackPanel Orientation="Vertical">
                     <DockPanel Margin="2" >
@@ -84,43 +96,65 @@
                 </StackPanel>
             </GroupBox>
 
-            <StackPanel Grid.Row="2"  Margin="0,5" >
-                <GroupBox Header="Title" Padding="4">
-                    <TextBox    Name="TextTitle" 
-                                HorizontalAlignment="Stretch"/>
-                </GroupBox>
-                <GroupBox Header="Author" Padding="4">
-                    <TextBox    Name="TextAuthor" 
-                                HorizontalAlignment="Stretch"/>
-                </GroupBox>
-                <GroupBox Header="Published by" Padding="4">
-                    <ComboBox   Name="TextPublisher" 
-                                HorizontalAlignment="Left"
-                                Width="180"
-                                IsEditable="True"
-                                SelectedItem="{Binding SelectedTextPublisher, Mode=TwoWay}"
-                                cal:Message.Attach="[Event LostFocus] = [Action TextPublisherLostFocus(TextPublisher.Text)]" >
-                        <System:String>Addison-Wesley</System:String>
-                        <System:String>Apress</System:String>
-                        <System:String>Manning</System:String>
-                        <System:String>McGraw-Hill</System:String>
-                        <System:String>Microsoft Press</System:String>
-                        <System:String>O'Reilly</System:String>
-                        <System:String>Packt Publishing</System:String>
-                        <System:String>Prantice Hall</System:String>
-                        <System:String>Sybex</System:String>
-                        <System:String>Wiley</System:String>
-                        <System:String>Wrox</System:String>
-                    </ComboBox>
-                </GroupBox>
-                <GroupBox Header="Year" Padding="4">
-                    <TextBox    Name="TextYear" 
-                                Width="100" 
-                                MaxLength="4"
-                                HorizontalAlignment="Left"
-                                cal:Message.Attach="[Event PreviewTextInput] = [Action NumberValidation($eventArgs)]" />
-                </GroupBox>
-            </StackPanel>
+            <!-- GROUP DETAILS -->
+            <GroupBox Grid.Row="2" Margin="0,5" Padding="4" Header="Details">
+                <StackPanel Orientation="Vertical">
+                    <!-- TITLE -->
+                    <DockPanel Margin="0,2">
+                        <TextBlock  Text="Title" 
+                                    Width="60" 
+                                    DockPanel.Dock="Left"/>
+                        <TextBox    Name="TextTitle" 
+                                    DockPanel.Dock="Right" />
+                    </DockPanel>
+                    
+                    <!-- AUTHOR -->
+                    <DockPanel Margin="0,2">
+                        <TextBlock  Text="Author"
+                                    Width="60"
+                                    DockPanel.Dock="Left" />
+                        <TextBox    Name="TextAuthor" 
+                                    DockPanel.Dock="Right"/>
+                    </DockPanel>
+                    
+                    <!-- PUBLISHER -->
+                    <DockPanel Margin="0,2">
+                        <TextBlock  Text="Published by"
+                                    Width="80"
+                                    DockPanel.Dock="Left" />
+                        <ComboBox   Name="TextPublisher" 
+                                    HorizontalAlignment="Left"
+                                    Width="180"
+                                    IsEditable="True"
+                                    SelectedItem="{Binding SelectedTextPublisher, Mode=TwoWay}"
+                                    cal:Message.Attach="[Event LostFocus] = [Action TextPublisherLostFocus(TextPublisher.Text)]" >
+                            <System:String>Addison-Wesley</System:String>
+                            <System:String>Apress</System:String>
+                            <System:String>Manning</System:String>
+                            <System:String>McGraw-Hill</System:String>
+                            <System:String>Microsoft Press</System:String>
+                            <System:String>O'Reilly</System:String>
+                            <System:String>Packt Publishing</System:String>
+                            <System:String>Prantice Hall</System:String>
+                            <System:String>Sybex</System:String>
+                            <System:String>Wiley</System:String>
+                            <System:String>Wrox</System:String>
+                        </ComboBox>
+                    </DockPanel>
+                    
+                    <!-- YEAR -->
+                    <DockPanel Margin="0,2">
+                        <TextBlock  Text="Year"
+                                    Width="60"
+                                    DockPanel.Dock="Left" />
+                        <TextBox    Name="TextYear" 
+                                    Width="100" 
+                                    MaxLength="4"
+                                    HorizontalAlignment="Left"
+                                    cal:Message.Attach="[Event PreviewTextInput] = [Action NumberValidation($eventArgs)]" />
+                    </DockPanel>
+                </StackPanel>
+            </GroupBox>
         </Grid>
         
         <!-- Bottom Row (LOG) -->
