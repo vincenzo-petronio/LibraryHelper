@@ -7,9 +7,11 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Reflection;
     using System.Text;
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
+    using System.Windows;
     using System.Windows.Input;
     using System.Windows.Threading;
 
@@ -41,7 +43,8 @@
         public MainViewModel(ISearchService ss)
         {
             // INIT
-            title = "Library Helper v1.0.0.0";
+            title = "Library Helper " + 
+                System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
             dTimer = new DispatcherTimer();
             dTimer.Tick += new EventHandler(dTimer_Tick);
             dTimer.Interval = new TimeSpan(0, 0, 2); // 2 sec
