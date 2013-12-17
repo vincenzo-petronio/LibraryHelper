@@ -160,10 +160,9 @@
         <!-- Bottom Row (LOG) -->
         <TabControl Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="2">
             <TabItem Header="Logs">
-                <ScrollViewer VerticalScrollBarVisibility="Auto" >
-                    <!--<RichTextBox Name="RichLog" />-->
-                    <nlog:NlogViewer Name="RichLog" />
-                </ScrollViewer>
+                <nlog:NlogViewer    Name="RichLog" 
+                                    ScrollViewer.CanContentScroll="True" 
+                                    ScrollViewer.VerticalScrollBarVisibility="Auto" />
             </TabItem>
         </TabControl>
         
