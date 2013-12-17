@@ -391,6 +391,28 @@
         }
 
         /// <summary>
+        /// Action for Drag&Drop Event.
+        /// </summary>
+        public void DropAction(DragEventArgs e)
+        {
+            App.logger.Debug("DropAction called...");
+            //e.Effects = DragDropEffects.Copy;
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] files = e.Data.GetData(DataFormats.FileDrop) as string[];
+                if (files[0] != null)
+                {
+                    var f = files[0];
+                    IsRightGridEnabled = true;
+                    string fileNameNoExtension = Path.GetFileNameWithoutExtension(f);
+                    App.logger.Info("Loaded: \t" + f);
+                    //this.TextBefore = f;
+                    //this.TextTitle = fileNameNoExtension;
+                }
+            }
+        }
+
+        /// <summary>
         /// Return string for filename based on filled text fields.
         /// </summary>
         /// <returns>string filename</returns>
@@ -426,7 +448,7 @@
         /// <summary>
         /// Action for Lost Focus Event on Combobox.
         /// </summary>
-        public void TextPublisherLostFocus(object item)
+        public void TextPublisherLostFocusAction(object item)
         {
             App.logger.Debug("TextPublisherSelectionChanged called... {0}", (string)item);
             this.SelectedTextPublisher = item as string;
@@ -462,7 +484,7 @@
         /// Validator for Isbn TextBox.
         /// </summary>
         /// <param name="e">TextCompositionEventArgs</param>
-        public void IsbnValidation(TextCompositionEventArgs e)
+        public void IsbnValidationAction(TextCompositionEventArgs e)
         {
             App.logger.Debug("IsbnValidation called...");
             if (e == null) return;
@@ -473,7 +495,7 @@
         /// Validator for numbers only TextBox
         /// </summary>
         /// <param name="e">TextCompositionEventArgs</param>
-        public void NumberValidation(TextCompositionEventArgs e)
+        public void NumberValidationAction(TextCompositionEventArgs e)
         {
             App.logger.Debug("NumberValidation called...");
             if (e == null) return;

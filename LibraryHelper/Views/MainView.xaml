@@ -28,15 +28,27 @@
         <!-- Left column -->
         <Grid Grid.Row="1" Grid.Column="0" >
             <StackPanel Orientation="Vertical" Margin="10">
-                <Button Content="Load book ..." 
-                        cal:Message.Attach="[Event Click] = [Action LoadAction]" 
-                        Height="30"
-                        Margin="10" />
-                <Button Content="Rename" 
-                        cal:Message.Attach="[Event Click] = [Action RenameAction]" 
-                        Background="#FFF08686" 
-                        Height="30"
-                        Margin="10" />
+                <Button     Content="Load book ..." 
+                            cal:Message.Attach="[Event Click] = [Action LoadAction]" 
+                            Height="30"
+                            Margin="10" />
+                
+                <Border     BorderBrush="Gray"
+                            BorderThickness="2"
+                            CornerRadius="2" 
+                            AllowDrop="True"
+                            Margin="10,20"
+                            Height="100"
+                            Padding="5" 
+                            cal:Message.Attach="[Event Drop] = [Action DropAction($eventArgs)]">
+                    <TextBlock Text="Drop here..." />
+                </Border>
+                
+                <Button     Content="Rename" 
+                            cal:Message.Attach="[Event Click] = [Action RenameAction]" 
+                            Background="#FFF08686" 
+                            Height="30"
+                            Margin="10" />
             </StackPanel>
         </Grid>
         
@@ -79,7 +91,7 @@
                     <DockPanel Margin="2" >
                         <TextBox    Name="TextIsbn"
                                     Width="260" 
-                                    cal:Message.Attach="[Event PreviewTextInput] = [Action IsbnValidation($eventArgs)]"/>
+                                    cal:Message.Attach="[Event PreviewTextInput] = [Action IsbnValidationAction($eventArgs)]"/>
                         <Button     DockPanel.Dock="Right"
                                     Content="Search" 
                                     Width="50" 
@@ -127,7 +139,7 @@
                                     Width="180"
                                     IsEditable="True"
                                     SelectedItem="{Binding SelectedTextPublisher, Mode=TwoWay}"
-                                    cal:Message.Attach="[Event LostFocus] = [Action TextPublisherLostFocus(TextPublisher.Text)]" >
+                                    cal:Message.Attach="[Event LostFocus] = [Action TextPublisherLostFocusAction(TextPublisher.Text)]" >
                             <System:String>Addison-Wesley</System:String>
                             <System:String>Apress</System:String>
                             <System:String>Manning</System:String>
@@ -151,7 +163,7 @@
                                     Width="100" 
                                     MaxLength="4"
                                     HorizontalAlignment="Left"
-                                    cal:Message.Attach="[Event PreviewTextInput] = [Action NumberValidation($eventArgs)]" />
+                                    cal:Message.Attach="[Event PreviewTextInput] = [Action NumberValidationAction($eventArgs)]" />
                     </DockPanel>
                 </StackPanel>
             </GroupBox>
