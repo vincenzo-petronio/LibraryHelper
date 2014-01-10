@@ -29,9 +29,10 @@
         <Grid Grid.Row="1" Grid.Column="0" >
             <StackPanel Orientation="Vertical" Margin="10">
                 <Button     Content="Load book ..." 
-                            cal:Message.Attach="[Event Click] = [Action LoadAction]" 
+                            Name="LoadAction"
                             Height="30"
                             Margin="10" />
+                <!--cal:Message.Attach="[Event Click] = [Action LoadAction]"-->
                 
                 <Border     BorderBrush="Gray"
                             BorderThickness="2"
@@ -45,7 +46,7 @@
                 </Border>
                 
                 <Button     Content="Rename" 
-                            cal:Message.Attach="[Event Click] = [Action RenameAction]" 
+                            Name="RenameAction"
                             Background="#FFF08686" 
                             Height="30"
                             Margin="10" />
@@ -94,10 +95,10 @@
                                     cal:Message.Attach="[Event PreviewTextInput] = [Action IsbnValidationAction($eventArgs)]"/>
                         <Button     DockPanel.Dock="Right"
                                     Content="Search" 
+                                    Name="SearchIsbn"
                                     Width="50" 
                                     IsEnabled="{Binding IsSearchButtonEnabled, Mode=OneWay}"
-                                    HorizontalAlignment="Right" 
-                                    cal:Message.Attach="[Event Click] = [Action SearchIsbn]" />
+                                    HorizontalAlignment="Right" />
                         </DockPanel>
                     <ProgressBar    DockPanel.Dock="Bottom"
                                     IsIndeterminate="True" 
