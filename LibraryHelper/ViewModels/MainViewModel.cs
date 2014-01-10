@@ -428,21 +428,10 @@
                 + "._." +
                 this.TextYear
                 + "._." +
-                this.TextIsbn.Replace("-", "")
+                this.TextIsbn.Replace("-", string.Empty)
                 + 
                 Path.GetExtension(openFileDialog.FileName);
-            return PurgeFilename(newFilename);
-        }
-
-        /// <summary>
-        /// Purge filename from unwanted chars.
-        /// </summary>
-        /// <returns>string</returns>
-        private string PurgeFilename(string filenameBefore)
-        {
-            string filenameAfter = string.Empty;
-            filenameAfter = filenameBefore.Replace(" ", ".");
-            return filenameAfter;
+            return newFilename;
         }
 
         /// <summary>

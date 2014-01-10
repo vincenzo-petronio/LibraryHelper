@@ -78,7 +78,7 @@
                         <TextBlock  Text="After" 
                                     Width="60" 
                                     DockPanel.Dock="Left"/>
-                        <TextBlock  Name="TextAfter"
+                        <TextBlock  Text="{Binding Path=TextAfter, Mode=TwoWay, Converter={StaticResource StringStripConv}}"
                                     FontSize="16"
                                     DockPanel.Dock="Right"
                                     Background="{x:Null}" />

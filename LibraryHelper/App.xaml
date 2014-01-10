@@ -9,6 +9,7 @@
                 <ResourceDictionary>
                     <local:AppBootstrapper x:Key="bootstrapper" />
                     <conv:BoolToVisibilityConverter x:Key="BoolToVisConv" />
+                    <conv:StringToStripStringConverter x:Key="StringStripConv" />
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
