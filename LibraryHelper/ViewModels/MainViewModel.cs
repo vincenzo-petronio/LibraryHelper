@@ -31,6 +31,7 @@
         private string textIsbn = string.Empty;
         private string selectedTextPublisher = string.Empty;
         private OpenFileDialog openFileDialog;
+        private string fileLoadedFullPath = string.Empty;
         private bool isRightGridEnabled = false;
         private bool isProgressEnabled = false;
         private bool isSearchButtonEnabled = true;
@@ -335,10 +336,11 @@
             Nullable<bool> result = openFileDialog.ShowDialog();
             if (result != null && result == true)
             {
-                App.logger.Debug("File selected: \t" + openFileDialog.FileName);
+                App.logger.Info("File Loaded (Dialog mode): \t" + openFileDialog.FileName);
                 IsRightGridEnabled = true;
                 string fileNameNoExtension = Path.GetFileNameWithoutExtension(openFileDialog.FileName);
-                this.TextBefore = openFileDialog.FileName;
+                this.fileLoadedFullPath = openFileDialog.FileName;
+                this.TextBefore = this.fileLoadedFullPath; ////this.openFileDialog.SafeFileName;
                 this.TextTitle = fileNameNoExtension;
             }
             else
@@ -348,16 +350,46 @@
         }
 
         /// <summary>
+        /// Action for Drag&Drop Event.
+        /// </summary>
+        public void DropAction(DragEventArgs e)
+        {
+            App.logger.Debug("DropAction called...");
+            //e.Effects = DragDropEffects.Copy;
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] files = e.Data.GetData(DataFormats.FileDrop) as string[];
+                if (files[0] != null)
+                {
+                    var f = files[0];
+                    App.logger.Info("File Loaded (Drag&Drop mode): \t" + f);
+                    this.CleanGui();
+                    IsRightGridEnabled = true;
+                    string fileNameNoExtension = Path.GetFileNameWithoutExtension(f);
+                    this.fileLoadedFullPath = f;
+                    this.TextBefore = this.fileLoadedFullPath;
+                    this.TextTitle = fileNameNoExtension;
+                }
+                else
+                {
+                    IsRightGridEnabled = false;
+                }
+            }
+        }
+
+        /// <summary>
         /// Action for Click Event on Rename button.
         /// </summary>
         public void RenameAction()
         {
             App.logger.Debug("RenameAction called...");
-            if (this.openFileDialog == null) return;
+            if (this.fileLoadedFullPath == null) return;
 
-            if (!string.IsNullOrEmpty(this.TextTitle) && !string.IsNullOrEmpty(this.TextAuthor) &&
+            if (!string.IsNullOrEmpty(this.TextTitle) && 
+                !string.IsNullOrEmpty(this.TextAuthor) &&
                 !string.IsNullOrEmpty(this.SelectedTextPublisher) && 
-                !string.IsNullOrEmpty(this.TextYear) && !string.IsNullOrEmpty(this.TextIsbn))
+                !string.IsNullOrEmpty(this.TextYear) && 
+                !string.IsNullOrEmpty(this.TextIsbn))
             {
                 // Selected filename (full path)
                 string selectedFilename = openFileDialog.FileName;
@@ -391,28 +423,6 @@
         }
 
         /// <summary>
-        /// Action for Drag&Drop Event.
-        /// </summary>
-        public void DropAction(DragEventArgs e)
-        {
-            App.logger.Debug("DropAction called...");
-            //e.Effects = DragDropEffects.Copy;
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                string[] files = e.Data.GetData(DataFormats.FileDrop) as string[];
-                if (files[0] != null)
-                {
-                    var f = files[0];
-                    IsRightGridEnabled = true;
-                    string fileNameNoExtension = Path.GetFileNameWithoutExtension(f);
-                    App.logger.Info("Loaded: \t" + f);
-                    //this.TextBefore = f;
-                    //this.TextTitle = fileNameNoExtension;
-                }
-            }
-        }
-
-        /// <summary>
         /// Return string for filename based on filled text fields.
         /// </summary>
         /// <returns>string filename</returns>
@@ -430,7 +440,7 @@
                 + "._." +
                 this.TextIsbn.Replace("-", string.Empty)
                 + 
-                Path.GetExtension(openFileDialog.FileName);
+                Path.GetExtension(this.fileLoadedFullPath);
             return newFilename;
         }
 
