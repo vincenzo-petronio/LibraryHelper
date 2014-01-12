@@ -97,6 +97,7 @@
             this.TextYear = string.Empty;
             this.SelectedTextPublisher = string.Empty;
             this.TextAfter = string.Empty;
+            fileLoadedFullPath = null;
         }
 
         /// <summary>
@@ -392,11 +393,11 @@
                 !string.IsNullOrEmpty(this.TextIsbn))
             {
                 // Selected filename (full path)
-                string selectedFilename = openFileDialog.FileName;
+                string selectedFilename = fileLoadedFullPath;
                 App.logger.Debug("FileName: {0}", selectedFilename);
 
                 // Selected filename merged to new Filename
-                string mergedFilename = Path.Combine(Path.GetDirectoryName(openFileDialog.FileName), this.GetFinalFilename());
+                string mergedFilename = Path.Combine(Path.GetDirectoryName(fileLoadedFullPath), this.TextAfter.Replace(" ", "."));
                 App.logger.Debug("FileName merged: {0}", mergedFilename);
 
                 // Replace
