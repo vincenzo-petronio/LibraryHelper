@@ -493,12 +493,19 @@
         private string GetSha256FileHash(string path)
         {
             App.logger.Debug("GetSha256FileHash called...");
-            SHA256 sha256 = SHA256.Create();
-            byte[] hashData = sha256.ComputeHash(Encoding.Default.GetBytes(fileLoadedFullPath));
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < hashData.Length; i++)
+            try
             {
-                sb.Append(hashData[i].ToString());
+                SHA256 sha256 = SHA256.Create();
+                byte[] hashData = sha256.ComputeHash(Encoding.Default.GetBytes(fileLoadedFullPath));
+                for (int i = 0; i < hashData.Length; i++)
+                {
+                    sb.Append(hashData[i].ToString());
+                }
+            }
+            catch(Exception e)
+            {
+                App.logger.Error(e.Message);
             }
 
             return sb.ToString();
