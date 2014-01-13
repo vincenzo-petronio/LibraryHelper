@@ -394,8 +394,7 @@
                 !string.IsNullOrEmpty(this.TextIsbn))
             {
                 // Selected filename (full path)
-                string selectedFilename = fileLoadedFullPath;
-                App.logger.Debug("FileName: {0}", selectedFilename);
+                App.logger.Debug("FileName: {0}", fileLoadedFullPath);
 
                 // Check Hash
                 string initialHash = GetSha256FileHash(fileLoadedFullPath);
@@ -408,11 +407,11 @@
                 // Replace
                 try
                 {
-                    File.Move(selectedFilename, mergedFilename);
+                    File.Move(fileLoadedFullPath, mergedFilename);
                     App.logger.Info("File was renamed successfully!");
                     
                     // Check Hash
-                    string finalHash = GetSha256FileHash(Path.GetFileName(mergedFilename));
+                    string finalHash = GetSha256FileHash(Path.GetFullPath(mergedFilename));
                     App.logger.Info("Final Hash SHA256: {0}", finalHash);
 
                     CleanGui();
@@ -497,15 +496,20 @@
             try
             {
                 SHA256 sha256 = SHA256.Create();
-                byte[] hashData = sha256.ComputeHash(Encoding.Default.GetBytes(fileLoadedFullPath));
+                byte[] hashData = sha256.ComputeHash(File.ReadAllBytes(path));
                 for (int i = 0; i < hashData.Length; i++)
                 {
-                    sb.Append(hashData[i].ToString());
+                    // 0:X2 = HEX base with 2 chars
+                    sb.Append(String.Format("{0:X2}", hashData[i]));
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 App.logger.Error(e.Message);
+            }
+            finally
+            {
+                //
             }
 
             return sb.ToString();
