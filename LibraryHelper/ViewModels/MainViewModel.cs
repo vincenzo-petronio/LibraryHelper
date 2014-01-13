@@ -8,6 +8,7 @@
     using System.IO;
     using System.Linq;
     using System.Reflection;
+    using System.Security.Cryptography;
     using System.Text;
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
@@ -396,6 +397,10 @@
                 string selectedFilename = fileLoadedFullPath;
                 App.logger.Debug("FileName: {0}", selectedFilename);
 
+                // Check Hash
+                string initialHash = GetSha256FileHash(fileLoadedFullPath);
+                App.logger.Info("Initial Hash SHA256: {0}", initialHash);
+
                 // Selected filename merged to new Filename
                 string mergedFilename = Path.Combine(Path.GetDirectoryName(fileLoadedFullPath), this.TextAfter.Replace(" ", "."));
                 App.logger.Debug("FileName merged: {0}", mergedFilename);
@@ -405,6 +410,11 @@
                 {
                     File.Move(selectedFilename, mergedFilename);
                     App.logger.Info("File was renamed successfully!");
+                    
+                    // Check Hash
+                    string finalHash = GetSha256FileHash(Path.GetFileName(mergedFilename));
+                    App.logger.Info("Final Hash SHA256: {0}", finalHash);
+
                     CleanGui();
                 }
                 catch (Exception e)
@@ -478,6 +488,20 @@
                 }
                 IsProgressEnabled = false;
             }
+        }
+
+        private string GetSha256FileHash(string path)
+        {
+            App.logger.Debug("GetSha256FileHash called...");
+            SHA256 sha256 = SHA256.Create();
+            byte[] hashData = sha256.ComputeHash(Encoding.Default.GetBytes(fileLoadedFullPath));
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < hashData.Length; i++)
+            {
+                sb.Append(hashData[i].ToString());
+            }
+
+            return sb.ToString();
         }
 
         /// <summary>
