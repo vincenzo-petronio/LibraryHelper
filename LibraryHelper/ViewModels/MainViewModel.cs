@@ -394,20 +394,20 @@
                 !string.IsNullOrEmpty(this.TextIsbn))
             {
                 // Selected filename (full path)
-                App.logger.Debug("FileName: {0}", fileLoadedFullPath);
+                App.logger.Debug("FileName: {0}", this.fileLoadedFullPath);
 
                 // Check Hash
-                string initialHash = GetSha256FileHash(fileLoadedFullPath);
+                string initialHash = GetSha256FileHash(this.fileLoadedFullPath);
                 App.logger.Info("Initial Hash SHA256: {0}", initialHash);
 
                 // Selected filename merged to new Filename
-                string mergedFilename = Path.Combine(Path.GetDirectoryName(fileLoadedFullPath), this.TextAfter.Replace(" ", "."));
+                string mergedFilename = Path.Combine(Path.GetDirectoryName(this.fileLoadedFullPath), this.TextAfter);
                 App.logger.Debug("FileName merged: {0}", mergedFilename);
 
                 // Replace
                 try
                 {
-                    File.Move(fileLoadedFullPath, mergedFilename);
+                    File.Move(this.fileLoadedFullPath, mergedFilename);
                     App.logger.Info("File was renamed successfully!");
                     
                     // Check Hash
@@ -451,6 +451,17 @@
                 this.TextIsbn.Replace("-", string.Empty)
                 + 
                 Path.GetExtension(this.fileLoadedFullPath);
+
+            // Invalid chars stripped from filename
+            char[] invalidChars = Path.GetInvalidFileNameChars();
+            foreach (char c in invalidChars)
+            {
+                newFilename = newFilename.Replace(c.ToString(), string.Empty);
+            }
+
+            // Replace white space
+            newFilename = newFilename.Replace(" ", ".");
+
             return newFilename;
         }
 
