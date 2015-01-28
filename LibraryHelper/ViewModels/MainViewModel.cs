@@ -5,6 +5,7 @@
     using Microsoft.Win32;
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Reflection;
@@ -440,9 +441,9 @@
         {
             // Pattern new filename
             string newFilename =
-                this.TextTitle
+                getStringCamelCase(this.TextTitle)
                 + "._." +
-                this.TextAuthor
+                getStringCamelCase(this.TextAuthor)
                 + "._." +
                 this.SelectedTextPublisher
                 + "._." +
@@ -459,8 +460,8 @@
                 newFilename = newFilename.Replace(c.ToString(), string.Empty);
             }
 
-            // Replace white space
-            newFilename = newFilename.Replace(" ", ".");
+            // Remove unwanted chars
+            newFilename = newFilename.Replace(" ", ".").Replace(",", string.Empty).Trim();
 
             return newFilename;
         }
@@ -498,6 +499,26 @@
                 }
                 IsProgressEnabled = false;
             }
+        }
+
+        /// <summary>
+        /// Converts the supplied string to title case.
+        /// </summary>
+        /// <param name="before">string before </param>
+        /// <returns></returns>
+        private string getStringCamelCase(string before)
+        {
+            string after = string.Empty;
+            try
+            {
+                TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+                after = textInfo.ToTitleCase(before);
+            }
+            catch (Exception e)
+            {
+                App.logger.Error(e.Message);
+            }
+            return after;
         }
 
         private string GetSha256FileHash(string path)
